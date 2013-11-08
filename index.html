@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Tetris</title>
+  <meta description="author" content="Pierre Jolivet">
+  <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+</head>
+<body>
+  <div id="content">
+
+    <canvas id='tetris-canvas'>
+      coincoin
+    </canvas>
+
+    <div id="player-infos">
+      <p id="player-score">Score: <span id="score">0</span></p>
+      <p id="next-shape-text">Pièce suivante:</p>
+      <canvas id='next-shape'>
+        coincoin
+      </canvas>
+      <!--<div id="modal">
+        <button class="btn" id="start-game" onclick="tetris.init()">Jouer</button>
+      </div>-->
+    </div>
+
+    <script type="text/javascript" src="assets/js/tetris.js"></script>
+    <script type="text/javascript" src="assets/js/player.js"></script>
+    <script type="text/javascript" src="assets/js/core.js"></script>
+  </body>
+  </html>
