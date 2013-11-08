@@ -7,6 +7,7 @@ var Tetris = function() {
   this.NormalSpeed = 900;
   this.BottomSpeed = 50;
   this.DefaultSpeed = 900;
+  this.started = false;
 }
 
 /**

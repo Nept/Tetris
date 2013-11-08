@@ -7,7 +7,7 @@
    this.NextShape = null; // Next shape in the map
    this.rotation = 2; // Default rotation
    this.shapePos = []; // Array of shapes positions
-   this.VerticalShapePos = 0; // Start horizontal position
+   this.VerticalShapePos = this.rotation = 0; // Start horizontal position
    this.HorizontalShapePos = 4; // Start vertical position (middle)
    this.NewObject = true; // New shape ?
    this.StartDate = new Date(); 
@@ -41,6 +41,7 @@
     // Stop the game
     clearInterval( this.startMap );
     clearInterval( this.startProc );
+    return false;
   };
 
 
@@ -61,7 +62,9 @@
  * Vertical and Horizontal
  */
  Tetris.prototype.displayGrid = function()
- {  
+ {
+  this.ctx.strokeStyle = 'black';
+  this.ctx.lineWidth = 0.4;
   for( i = 1; i < this.WIDTH; i++ ) {
     this.drawline( i * this.BLOCK, 0, i * this.BLOCK, this.HEIGHT);
   }
@@ -94,9 +97,6 @@
  */
  Tetris.prototype.refreshMap = function()
  {
-  this.ctx.strokeStyle = 'black';
-  this.ctx.lineWidth = 0.4;
-
   this.ctx.clearRect( 0, 0, this.WIDTH, this.HEIGHT );
 
   for( var i = 0; i < this.HCOUNT; i++ ) {
@@ -118,9 +118,8 @@
       }
       this.ctx.restore();
     }
-    
-    // draws the grid over the shapes
-    this.displayGrid("Tetris");
+
+    this.displayGrid();
   };
 
 
@@ -134,7 +133,6 @@
     var color = 1, removeLines = false, x, y, olength, CurrentDate;
 
     if( this.fixed ){
-      console.log('this fixed === true')
       removeLines = true;
       this.fixed  = false;
       this.NewObject  = true;
@@ -196,8 +194,6 @@
         if( columns[i] == this.VCOUNT - 1 || this.Map[i][columns[i] + 1] != 1 ) {
           this.fixed = true;
           if( this.NewObject ) {
-            console.log("Game Over pauvre canard de merde");
-            
             this.gameOver();
             //this.initGame();
           }
@@ -333,6 +329,7 @@
     this.canvasNextShape.height = 4 * this.BLOCK;
     this.canvasNextShape.width = 4 * this.BLOCK;
 
+    this.displayGrid();
     this.initGame();
   };
 
@@ -342,14 +339,15 @@
    Tetris.prototype.start = function()
    {
     var self = this;
-    this.startMap = setInterval(function() {self.refreshMap()}, 1000 / 30);
-    this.startProc =setInterval(function() {self.proc()}, 1000 / 30);
+    this.startMap  = setInterval(function() {self.refreshMap()}, 1000 / 30);
+    this.startProc = setInterval(function() {self.proc()}, 1000 / 30);
 
     document.onkeydown = function(event) {self.key_mapping(event)};
 
     // Reinitialize original Speed when escape is up
     document.onkeyup = function(event) {
-      if( event.which === 40 ) self.NormalSpeed = self.DefaultSpeed;
+      if( event.which === 40 )
+        self.NormalSpeed = self.DefaultSpeed;
     }
 
   };
